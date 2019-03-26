@@ -1,0 +1,102 @@
+/* ------- */
+/* General */
+/* ------- */
+li{
+    margin: 5px 0;
+}
+
+
+/* ---------------- */
+/* Regional Impacts */
+/* ---------------- */
+.tourism-yearly{
+    padding: 9px 18px;
+    font-size: 22.4px;
+    font-weight: 700;
+    color: #fff !important;
+    background-color: #643b83;
+}
+.tourism-yearly-container{
+    display: flex;
+}
+.amounts{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+.amounts h3{
+    font-size: 3rem;
+    color: rgb(247, 148, 29);
+    font-weight: 500;
+}
+.amounts-num{
+    font-weight: 700;
+}
+.amounts-cat{
+    font-size: 1.5rem;
+    color: #643b83;
+}
+#yearly-hr{
+    margin: 1em 0 0.5em 0;
+}
+#yearly-source{
+    display: block;
+    margin-bottom: 10px;
+}
+.vr{
+    border: thin solid #0e3f43;
+    margin: 0 1% 0 1%;
+}
+
+
+/* ----------------- */
+/* Multimodal Access */
+/* ----------------- */
+#multimodal-access-ul{
+    list-style-type: none;
+    padding: 0;
+}
+#multimodal-access-ul li{
+    padding: 1% 0;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #b4b4b4;
+}
+#multimodal-access-ul:last-child{
+    border-bottom: 1px solid #b4b4b4;
+}
+.multimodal-access-percents{
+    font-size: 1.3rem;
+    color: #643b83;
+    padding-right: 8px;
+    margin-right: 8px;
+    border-right: 2px solid rgb(247, 148, 29);
+}
+
+
+/* ------- */
+/* --Map-- */
+/* ------- */
+#map-toggle-form{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9em;
+    align-items: center;
+}
+#map-toggle-select{
+    max-width: 90%;
+}
+#map{
+    height: 500px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* ------- */
+/* -Table- */
+/* ------- */
+.number-column{
+    text-align: right;
+}
