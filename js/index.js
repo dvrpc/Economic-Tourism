@@ -53,7 +53,7 @@ const layerData = {
     VisitorAttractions_Circuit
 }
 
-// Create tourism map layers
+// Create tourism layers & hover layers
 const addTourismLayer = layer => {
 
     // use e (value of the selected option) to pick the correct dataSource
@@ -75,6 +75,48 @@ const addTourismLayer = layer => {
             'circle-stroke-opacity': 0.9
         }
     }
+}
+
+const addTourismHover = layer => {
+
+    const data = layerData[layer]
+
+    return {
+        'id': layer+'-hover',
+        type: 'circle',
+        'source': {
+            type: 'geojson',
+            data
+        },
+        'layout': {},
+        'paint': {
+            'circle-radius': 6,
+            'circle-color': '#643b83',
+            'circle-opacity': 1,
+            'circle-stroke-width': 1.25,
+            'circle-stroke-color': '#643b83',
+            'circle-stroke-opacity': 1
+        },
+        'filter': [
+            '==',
+            // This is just for testing. Update to objectid when it gets added to the geojson
+            'COMPANY',
+            ''
+        ]
+    }
+}
+
+// @TODO: update all instances of 'company' with objectid after that gets added to the geojson
+const hoverLayer = (e, layer) => {
+    const company = e.features[0].properties['COMPANY']
+
+    map.getCanvas().style.cursor = 'pointer'
+    map.setFilter(layer, ['==', 'COMPANY', company])
+}
+
+const unHoverLayer = layer => {
+    map.getCanvas().style.cursor = ''
+    map.setFilter(layer, ['==', 'COMPANY', ''])
 }
 
 const map = new mapboxgl.Map({
@@ -101,9 +143,16 @@ const map = new mapboxgl.Map({
 map.fitBounds([[-76.09405517578125, 39.49211914385648],[-74.32525634765625,40.614734298694216]]);
 
 map.on('load', () => {
-    // load All by default
+    // load VisitorAttractions_All by default
     const defaultLayer = addTourismLayer('VisitorAttractions_All')
+    const defaultHoverLayer = addTourismHover('VisitorAttractions_All')
+    
     map.addLayer(defaultLayer)
+    map.addLayer(defaultHoverLayer)
+
+    // listen for mouse events on default layer
+    map.on('mousemove', 'VisitorAttractions_All', e => hoverLayer(e, 'VisitorAttractions_All-hover'))
+    map.on('mouseleave', 'VisitorAttractions_All', () => unHoverLayer('VisitorAttractions_All-hover'))
 
     const layerOptions = document.querySelector('#map-toggle-select')
 
@@ -114,29 +163,36 @@ map.on('load', () => {
         // get the selected layer
         const layer = e.target.value
         
-        // set current layer visibility to hidden (ignore first 3 b/c those are the basemap)
+        // get layers (ignore first 3 b/c those are the basemap)
         const layers = map.getStyle().layers.slice(3)
-        const length = layers.length
 
         // loop thru the existing layers to a) hide them and b) check if the selected layer already exists
-        for(var i=0; i<length; i++) {
-            const loopedLayer = layers[i].id
+        layers.forEach(loopedLayer => {
+            loopedLayer = loopedLayer.id
+    
             map.setLayoutProperty(loopedLayer, 'visibility', 'none')
-
-            // then check if the layer already exists on the map
+    
             if(loopedLayer === layer) hasLayer = true
-        }
+        })
 
-        
         // if the layer already exists on the map, toggle it's visibility
         if(hasLayer){
-            //if it does, toggle it's visibility to visible
+            const hoverLayer = layer+'-hover'      
+
             map.setLayoutProperty(layer, 'visibility', 'visible')
+            map.setLayoutProperty(hoverLayer, 'visibility', 'visible')
         
         // otherwise add it to the map
         }else{
             const tourismLayer = addTourismLayer(layer)
+            const tourismHoverLayer = addTourismHover(layer)
+
             map.addLayer(tourismLayer)
+            map.addLayer(tourismHoverLayer)
+
+            // add mouse events
+            map.on('mousemove', layer, e => hoverLayer(e, layer+'-hover'))
+            map.on('mouseleave', layer, () => unHoverLayer(layer+'-hover'))
         }
     }
 })
