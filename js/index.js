@@ -99,24 +99,22 @@ const addTourismHover = layer => {
         },
         'filter': [
             '==',
-            // This is just for testing. Update to objectid when it gets added to the geojson
-            'COMPANY',
+            'OBJECTID_1',
             ''
         ]
     }
 }
 
-// @TODO: update all instances of 'company' with objectid after that gets added to the geojson
 const hoverLayer = (e, layer) => {
-    const company = e.features[0].properties['COMPANY']
+    const id = e.features[0].properties['OBJECTID_1']
 
     map.getCanvas().style.cursor = 'pointer'
-    map.setFilter(layer, ['==', 'COMPANY', company])
+    map.setFilter(layer, ['==', 'OBJECTID_1', id])
 }
 
 const unHoverLayer = layer => {
     map.getCanvas().style.cursor = ''
-    map.setFilter(layer, ['==', 'COMPANY', ''])
+    map.setFilter(layer, ['==', 'OBJECTID_1', ''])
 }
 
 // @TODO: edit this to handle bus and rail lines when they get added to the geojson. Either write new functions, or helpers to get the extra info
@@ -134,7 +132,7 @@ const addPopup = e => {
     .setHTML(`
         <h3 class="popup-title">${name}</h3>
         <hr />
-        <span class="address-wrapper">Address: <address class="popup-address">${address}</address></span>
+        <span class="address-wrapper">Address: <address class="popup-address"> ${address}</address></span>
     `)
     .addTo(map)
 }
