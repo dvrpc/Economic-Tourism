@@ -117,23 +117,49 @@ const unHoverLayer = layer => {
     map.setFilter(layer, ['==', 'OBJECTID_1', ''])
 }
 
-// @TODO: edit this to handle bus and rail lines when they get added to the geojson. Either write new functions, or helpers to get the extra info
-const addPopup = e => {
+// helper function to add the extra bits to the popup html when necessary
+const handleExtraPopupContent = (type, properties) => {
+    switch(type){
+        case 'VisitorAttractions_Bus':
+            const stop = properties['STOPNAME']
+
+            return `<p><strong>Nearby Bus Walkshed</strong>: ${stop}</p>`
+        case 'VisitorAttractions_Rail':
+            const station4 = properties['STATIONS_4']
+            const station5 = properties['STATIONS_5']
+            const station6 = properties['STATIONS_6']
+
+            return `
+                <p><strong>Nearby Rail Walkshed:</strong></p>
+                <ol class="rail-walkshed-list">
+                    <li><strong>Station</strong>: ${station4}</li>
+                    <li><strong>Line</strong>: ${station5}</li>
+                    <li><strong>Operator</strong>: ${station6}</li>
+                </ol>
+            `
+        default:
+            return ''
+    }
+}
+
+const addPopup = (e, type) => {
     const properties = e.features[0].properties
     const name = properties['TRADENAME'].length > 1 ? properties['TRADENAME'] : properties['COMPANY']
     const address = properties['ADDRESS']
     const lngLat = e.lngLat
+    let html = `
+        <h3 class="popup-title">${name}</h3>
+        <hr />
+        <span class="address-wrapper"><strong>Address</strong>: <address class="popup-address"> ${address}</address></span>
+    `
 
+    html += handleExtraPopupContent(type, properties)
 
     new mapboxgl.Popup({
         closebutton: true,
         closeOnClick: true
     }).setLngLat(lngLat)
-    .setHTML(`
-        <h3 class="popup-title">${name}</h3>
-        <hr />
-        <span class="address-wrapper">Address: <address class="popup-address"> ${address}</address></span>
-    `)
+    .setHTML(html)
     .addTo(map)
 }
 
@@ -161,6 +187,7 @@ const map = new mapboxgl.Map({
 map.fitBounds([[-76.09405517578125, 39.49211914385648],[-74.32525634765625,40.614734298694216]]);
 
 map.on('load', () => {
+
     // load VisitorAttractions_All by default
     const defaultLayer = addTourismLayer('VisitorAttractions_All')
     const defaultHoverLayer = addTourismHover('VisitorAttractions_All')
@@ -171,7 +198,7 @@ map.on('load', () => {
     // listen for mouse events on default layer
     map.on('mousemove', 'VisitorAttractions_All', e => hoverLayer(e, 'VisitorAttractions_All-hover'))
     map.on('mouseleave', 'VisitorAttractions_All', () => unHoverLayer('VisitorAttractions_All-hover'))
-    map.on('click', 'VisitorAttractions_All', e => addPopup(e))
+    map.on('click', 'VisitorAttractions_All', e => addPopup(e, null))
 
     const layerOptions = document.querySelector('#map-toggle-select')
 
@@ -188,9 +215,9 @@ map.on('load', () => {
         // loop thru the existing layers to a) hide them and b) check if the selected layer already exists
         layers.forEach(loopedLayer => {
             loopedLayer = loopedLayer.id
-    
+
             map.setLayoutProperty(loopedLayer, 'visibility', 'none')
-    
+
             if(loopedLayer === layer) hasLayer = true
         })
 
@@ -212,7 +239,7 @@ map.on('load', () => {
             // add mouse events
             map.on('mousemove', layer, e => hoverLayer(e, layer+'-hover'))
             map.on('mouseleave', layer, () => unHoverLayer(layer+'-hover'))
-            map.on('click', layer, e => addPopup(e))
+            map.on('click', layer, e => addPopup(e, layer))
         }
     }
 })

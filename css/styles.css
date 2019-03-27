@@ -4,7 +4,9 @@
 li{
     margin: 5px 0;
 }
-
+hr{
+    margin: 1em 0 1em;
+}
 
 /* ---------------- */
 /* Regional Impacts */
@@ -99,7 +101,10 @@ li{
 }
 .address-wrapper{
     display: flex;
-    justify-content: center;
+}
+.rail-walkshed-list{
+    list-style-type: none;
+    margin: 0;
 }
 
 /* ------- */
