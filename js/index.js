@@ -117,6 +117,7 @@ const unHoverLayer = layer => {
     map.setFilter(layer, ['==', 'OBJECTID_1', ''])
 }
 
+// rail line layers and labels. Turns out they didn't ask for these but they're here so they're staying
 const railSource = {
     type: 'geojson',
     data: 'https://opendata.arcgis.com/datasets/5af7a3e9c0f34a7f93ac8935cb6cae3b_0.geojson'
@@ -154,7 +155,6 @@ const railLayer = {
         'line-opacity': 0.85,
     }
 }
-
 const railLabelsLayer = {
     id: 'rail-labels',
     type: 'symbol',
@@ -192,7 +192,7 @@ const railLabelsLayer = {
         ],
         'text-halo-width': 2,
         'text-halo-blur': 3
-}
+    }
 }
 
 // helper function to add the extra bits to the popup html when necessary
@@ -215,6 +215,9 @@ const handleExtraPopupContent = (type, properties) => {
                     <li><strong>Operator</strong>: ${station6}</li>
                 </ol>
             `
+        case 'VisitorAttractions_Circuit':
+            const name = properties['NAME']
+            return `<p><strong>Circuit Name</strong>: ${name}</p>`
         default:
             return ''
     }
