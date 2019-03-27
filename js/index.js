@@ -1,6 +1,6 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoibW1vbHRhIiwiYSI6ImNqZDBkMDZhYjJ6YzczNHJ4cno5eTcydnMifQ.RJNJ7s7hBfrJITOBZBdcOA'
-
-// Basemap layers (countyOutline, countyFill, municipalityOutline)
+////
+// Basemap layers + Rail Layers (Turns out they didn't ask for rail layers but they're here so they're staying)
+////
 const countyOutline = {
     id: 'county-outline',
     type: 'line',
@@ -16,7 +16,6 @@ const countyOutline = {
         'Yes'
     ]
 }
-
 const countyFill = {
     id: 'county-fill',
     type: 'fill',
@@ -33,7 +32,6 @@ const countyFill = {
         'Yes'
       ],
 }
-
 const municipalityOutline = {
     id: 'municipality-outline',
     type: 'line',
@@ -44,80 +42,6 @@ const municipalityOutline = {
         'line-color': '#f7f7f7'
     }
 }
-
-// tourism geojsons
-const layerData = {
-    VisitorAttractions_All,
-    VisitorAttractions_Bus,
-    VisitorAttractions_Rail,
-    VisitorAttractions_Circuit
-}
-
-// Create tourism layers & hover layers
-const addTourismLayer = layer => {
-
-    // use e (value of the selected option) to pick the correct dataSource
-    const data = layerData[layer]
-
-    return {
-        id: layer,
-        type: 'circle',
-        source: {
-            type: 'geojson',
-            data
-        },
-        'paint': {
-            'circle-radius': 5,
-            'circle-color': '#F7941D',
-            'circle-opacity': 1,
-            'circle-stroke-width': 1.25,
-            'circle-stroke-color': '#643b83',
-            'circle-stroke-opacity': 0.9
-        }
-    }
-}
-
-const addTourismHover = layer => {
-
-    const data = layerData[layer]
-
-    return {
-        'id': layer+'-hover',
-        type: 'circle',
-        'source': {
-            type: 'geojson',
-            data
-        },
-        'layout': {},
-        'paint': {
-            'circle-radius': 6,
-            'circle-color': '#643b83',
-            'circle-opacity': 1,
-            'circle-stroke-width': 1.25,
-            'circle-stroke-color': '#643b83',
-            'circle-stroke-opacity': 1
-        },
-        'filter': [
-            '==',
-            'OBJECTID_1',
-            ''
-        ]
-    }
-}
-
-const hoverLayer = (e, layer) => {
-    const id = e.features[0].properties['OBJECTID_1']
-
-    map.getCanvas().style.cursor = 'pointer'
-    map.setFilter(layer, ['==', 'OBJECTID_1', id])
-}
-
-const unHoverLayer = layer => {
-    map.getCanvas().style.cursor = ''
-    map.setFilter(layer, ['==', 'OBJECTID_1', ''])
-}
-
-// rail line layers and labels. Turns out they didn't ask for these but they're here so they're staying
 const railSource = {
     type: 'geojson',
     data: 'https://opendata.arcgis.com/datasets/5af7a3e9c0f34a7f93ac8935cb6cae3b_0.geojson'
@@ -195,7 +119,85 @@ const railLabelsLayer = {
     }
 }
 
-// helper function to add the extra bits to the popup html when necessary
+
+////
+// Tourism geojsons
+////
+const layerData = {
+    VisitorAttractions_All,
+    VisitorAttractions_Bus,
+    VisitorAttractions_Rail,
+    VisitorAttractions_Circuit
+}
+
+
+////
+// Functions to Create tourism layers & hover layers
+////
+const addTourismLayer = layer => {
+
+    // use e (value of the selected option) to pick the correct dataSource
+    const data = layerData[layer]
+
+    return {
+        id: layer,
+        type: 'circle',
+        source: {
+            type: 'geojson',
+            data
+        },
+        'paint': {
+            'circle-radius': 5,
+            'circle-color': '#F7941D',
+            'circle-opacity': 1,
+            'circle-stroke-width': 1.25,
+            'circle-stroke-color': '#643b83',
+            'circle-stroke-opacity': 0.9
+        }
+    }
+}
+const addTourismHover = layer => {
+
+    const data = layerData[layer]
+
+    return {
+        'id': layer+'-hover',
+        type: 'circle',
+        'source': {
+            type: 'geojson',
+            data
+        },
+        'layout': {},
+        'paint': {
+            'circle-radius': 6,
+            'circle-color': '#643b83',
+            'circle-opacity': 1,
+            'circle-stroke-width': 1.25,
+            'circle-stroke-color': '#643b83',
+            'circle-stroke-opacity': 1
+        },
+        'filter': [
+            '==',
+            'OBJECTID_1',
+            ''
+        ]
+    }
+}
+const hoverLayer = (e, layer) => {
+    const id = e.features[0].properties['OBJECTID_1']
+
+    map.getCanvas().style.cursor = 'pointer'
+    map.setFilter(layer, ['==', 'OBJECTID_1', id])
+}
+const unHoverLayer = layer => {
+    map.getCanvas().style.cursor = ''
+    map.setFilter(layer, ['==', 'OBJECTID_1', ''])
+}
+
+
+////
+// Mapboxgl popup functions
+////
 const handleExtraPopupContent = (type, properties) => {
     switch(type){
         case 'VisitorAttractions_Bus':
@@ -222,7 +224,6 @@ const handleExtraPopupContent = (type, properties) => {
             return ''
     }
 }
-
 const addPopup = (e, type) => {
     const properties = e.features[0].properties
     const name = properties['TRADENAME'].length > 1 ? properties['TRADENAME'] : properties['COMPANY']
@@ -244,6 +245,11 @@ const addPopup = (e, type) => {
     .addTo(map)
 }
 
+
+////
+// Maboxgl Config
+////
+mapboxgl.accessToken = 'pk.eyJ1IjoibW1vbHRhIiwiYSI6ImNqZDBkMDZhYjJ6YzczNHJ4cno5eTcydnMifQ.RJNJ7s7hBfrJITOBZBdcOA'
 const map = new mapboxgl.Map({
     container: 'map',
     style: {
@@ -265,11 +271,9 @@ const map = new mapboxgl.Map({
     center: [-75.2273, 40.071],
     zoom: 3
 });
-
 map.fitBounds([[-76.09405517578125, 39.49211914385648],[-74.32525634765625,40.614734298694216]]);
-
 map.on('load', () => {
-
+    
     // load VisitorAttractions_All by default
     const defaultLayer = addTourismLayer('VisitorAttractions_All')
     const defaultHoverLayer = addTourismHover('VisitorAttractions_All')
