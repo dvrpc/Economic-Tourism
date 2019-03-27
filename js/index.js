@@ -119,6 +119,26 @@ const unHoverLayer = layer => {
     map.setFilter(layer, ['==', 'COMPANY', ''])
 }
 
+// @TODO: edit this to handle bus and rail lines when they get added to the geojson. Either write new functions, or helpers to get the extra info
+const addPopup = e => {
+    const properties = e.features[0].properties
+    const name = properties['TRADENAME'].length > 1 ? properties['TRADENAME'] : properties['COMPANY']
+    const address = properties['ADDRESS']
+    const lngLat = e.lngLat
+
+
+    new mapboxgl.Popup({
+        closebutton: true,
+        closeOnClick: true
+    }).setLngLat(lngLat)
+    .setHTML(`
+        <h3 class="popup-title">${name}</h3>
+        <hr />
+        <span class="address-wrapper">Address: <address class="popup-address">${address}</address></span>
+    `)
+    .addTo(map)
+}
+
 const map = new mapboxgl.Map({
     container: 'map',
     style: {
@@ -153,6 +173,7 @@ map.on('load', () => {
     // listen for mouse events on default layer
     map.on('mousemove', 'VisitorAttractions_All', e => hoverLayer(e, 'VisitorAttractions_All-hover'))
     map.on('mouseleave', 'VisitorAttractions_All', () => unHoverLayer('VisitorAttractions_All-hover'))
+    map.on('click', 'VisitorAttractions_All', e => addPopup(e))
 
     const layerOptions = document.querySelector('#map-toggle-select')
 
@@ -193,6 +214,7 @@ map.on('load', () => {
             // add mouse events
             map.on('mousemove', layer, e => hoverLayer(e, layer+'-hover'))
             map.on('mouseleave', layer, () => unHoverLayer(layer+'-hover'))
+            map.on('click', layer, e => addPopup(e))
         }
     }
 })

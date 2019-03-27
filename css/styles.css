@@ -93,6 +93,14 @@ li{
     width: 100%;
     margin-bottom: 10px;
 }
+.popup-title{
+    font-size: 14px;
+    text-align: center;
+}
+.address-wrapper{
+    display: flex;
+    justify-content: center;
+}
 
 /* ------- */
 /* -Table- */
