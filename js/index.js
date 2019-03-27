@@ -117,6 +117,84 @@ const unHoverLayer = layer => {
     map.setFilter(layer, ['==', 'OBJECTID_1', ''])
 }
 
+const railSource = {
+    type: 'geojson',
+    data: 'https://opendata.arcgis.com/datasets/5af7a3e9c0f34a7f93ac8935cb6cae3b_0.geojson'
+}
+const railLayer = {
+    id: 'rail-layer',
+    type: 'line',
+    // using the same geojson and passenger origins cause the tile layer has way too much going on / might be buses?
+    source: railSource,
+    paint: {
+        'line-color': [
+            'match',
+            ['get', 'TYPE'],
+            'AMTRAK',
+            '#004d6e',
+            'NJ Transit',
+            '#f18541',
+            'NJ Transit Light Rail',
+            '#ffc424',
+            'PATCO',
+            '#ed164b',
+            'Rapid Transit',
+            '#9e3e97',
+            'Regional Rail',
+            '#487997',
+            'Subway',
+            '#f58221',
+            'Subway - Elevated',
+            '#067dc1',
+            'Surface Trolley',
+            '#529442',
+            '#323232'
+        ],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 8, 3, 12, 8],
+        'line-opacity': 0.85,
+    }
+}
+
+const railLabelsLayer = {
+    id: 'rail-labels',
+    type: 'symbol',
+    source: railSource,
+    layout: {
+        'text-field': '{LINE_NAME}',
+        'text-font': ["Montserrat SemiBold", "Open Sans Semibold"],
+        'text-size': ['interpolate', ['linear'], ['zoom'], 3, 12, 12, 10],
+        'symbol-placement': 'line'
+    },
+    paint: {
+        'text-color': '#fff',
+        'text-halo-color': [
+          'match',
+          ['get', 'TYPE'],
+          'AMTRAK',
+          '#004d6e',
+          'NJ Transit',
+          '#f18541',
+          'NJ Transit Light Rail',
+          '#ffc424',
+          'PATCO',
+          '#ed164b',
+          'Rapid Transit',
+          '#9e3e97',
+          'Regional Rail',
+          '#487997',
+          'Subway',
+          '#f58221',
+          'Subway - Elevated',
+          '#067dc1',
+          'Surface Trolley',
+          '#529442',
+          '#323232'
+        ],
+        'text-halo-width': 2,
+        'text-halo-blur': 3
+}
+}
+
 // helper function to add the extra bits to the popup html when necessary
 const handleExtraPopupContent = (type, properties) => {
     switch(type){
@@ -167,6 +245,7 @@ const map = new mapboxgl.Map({
     container: 'map',
     style: {
         'version': 8,
+        "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
         'sources': {
             'Boundaries': {
                 type: 'vector',
@@ -205,9 +284,13 @@ map.on('load', () => {
     // listen to onchange events for the dropdown
     layerOptions.onchange = e => {
         let hasLayer = false
+        let isRailLayer = false
 
         // get the selected layer
         const layer = e.target.value
+
+        // check if the selected layer is the rail layer
+        if(layer === 'VisitorAttractions_Rail') isRailLayer = true
         
         // get layers (ignore first 3 b/c those are the basemap)
         const layers = map.getStyle().layers.slice(3)
@@ -227,12 +310,21 @@ map.on('load', () => {
 
             map.setLayoutProperty(layer, 'visibility', 'visible')
             map.setLayoutProperty(hoverLayer, 'visibility', 'visible')
+
+            if(isRailLayer){
+                map.setLayoutProperty('rail-layer', 'visibility', 'visible')
+                map.setLayoutProperty('rail-labels', 'visibility', 'visible')
+            }
         
         // otherwise add it to the map
         }else{
             const tourismLayer = addTourismLayer(layer)
             const tourismHoverLayer = addTourismHover(layer)
 
+            if(isRailLayer){
+                map.addLayer(railLayer)
+                map.addLayer(railLabelsLayer)
+            } 
             map.addLayer(tourismLayer)
             map.addLayer(tourismHoverLayer)
 
