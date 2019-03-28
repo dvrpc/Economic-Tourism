@@ -1,5 +1,5 @@
 ////
-// Basemap layers + Rail Layers (Turns out they didn't ask for rail layers but they're here so they're staying)
+// Basemap layers
 ////
 const countyOutline = {
     id: 'county-outline',
@@ -42,82 +42,6 @@ const municipalityOutline = {
         'line-color': '#f7f7f7'
     }
 }
-const railSource = {
-    type: 'geojson',
-    data: 'https://opendata.arcgis.com/datasets/5af7a3e9c0f34a7f93ac8935cb6cae3b_0.geojson'
-}
-const railLayer = {
-    id: 'rail-layer',
-    type: 'line',
-    // using the same geojson and passenger origins cause the tile layer has way too much going on / might be buses?
-    source: railSource,
-    paint: {
-        'line-color': [
-            'match',
-            ['get', 'TYPE'],
-            'AMTRAK',
-            '#004d6e',
-            'NJ Transit',
-            '#f18541',
-            'NJ Transit Light Rail',
-            '#ffc424',
-            'PATCO',
-            '#ed164b',
-            'Rapid Transit',
-            '#9e3e97',
-            'Regional Rail',
-            '#487997',
-            'Subway',
-            '#f58221',
-            'Subway - Elevated',
-            '#067dc1',
-            'Surface Trolley',
-            '#529442',
-            '#323232'
-        ],
-        'line-width': ['interpolate', ['linear'], ['zoom'], 8, 3, 12, 8],
-        'line-opacity': 0.85,
-    }
-}
-const railLabelsLayer = {
-    id: 'rail-labels',
-    type: 'symbol',
-    source: railSource,
-    layout: {
-        'text-field': '{LINE_NAME}',
-        'text-font': ["Montserrat SemiBold", "Open Sans Semibold"],
-        'text-size': ['interpolate', ['linear'], ['zoom'], 3, 12, 12, 10],
-        'symbol-placement': 'line'
-    },
-    paint: {
-        'text-color': '#fff',
-        'text-halo-color': [
-          'match',
-          ['get', 'TYPE'],
-          'AMTRAK',
-          '#004d6e',
-          'NJ Transit',
-          '#f18541',
-          'NJ Transit Light Rail',
-          '#ffc424',
-          'PATCO',
-          '#ed164b',
-          'Rapid Transit',
-          '#9e3e97',
-          'Regional Rail',
-          '#487997',
-          'Subway',
-          '#f58221',
-          'Subway - Elevated',
-          '#067dc1',
-          'Surface Trolley',
-          '#529442',
-          '#323232'
-        ],
-        'text-halo-width': 2,
-        'text-halo-blur': 3
-    }
-}
 
 
 ////
@@ -132,7 +56,7 @@ const layerData = {
 
 
 ////
-// Functions to Create tourism layers & hover layers
+// Functions to Create tourism layers, hover layers and rail layers
 ////
 const addTourismLayer = layer => {
 
@@ -192,6 +116,87 @@ const hoverLayer = (e, layer) => {
 const unHoverLayer = layer => {
     map.getCanvas().style.cursor = ''
     map.setFilter(layer, ['==', 'OBJECTID_1', ''])
+}
+const addRailLayers = () => {
+    const railSource = {
+        type: 'geojson',
+        data: 'https://opendata.arcgis.com/datasets/5af7a3e9c0f34a7f93ac8935cb6cae3b_0.geojson'
+    }
+    const railLayer = {
+        id: 'rail-layer',
+        type: 'line',
+        // using the same geojson and passenger origins cause the tile layer has way too much going on / might be buses?
+        source: railSource,
+        paint: {
+            'line-color': [
+                'match',
+                ['get', 'TYPE'],
+                'AMTRAK',
+                '#004d6e',
+                'NJ Transit',
+                '#f18541',
+                'NJ Transit Light Rail',
+                '#ffc424',
+                'PATCO',
+                '#ed164b',
+                'Rapid Transit',
+                '#9e3e97',
+                'Regional Rail',
+                '#487997',
+                'Subway',
+                '#f58221',
+                'Subway - Elevated',
+                '#067dc1',
+                'Surface Trolley',
+                '#529442',
+                '#323232'
+            ],
+            'line-width': ['interpolate', ['linear'], ['zoom'], 8, 3, 12, 8],
+            'line-opacity': 0.85,
+        }
+    }
+    const railLabelsLayer = {
+        id: 'rail-labels',
+        type: 'symbol',
+        source: railSource,
+        layout: {
+            'text-field': '{LINE_NAME}',
+            'text-font': ["Montserrat SemiBold", "Open Sans Semibold"],
+            'text-size': ['interpolate', ['linear'], ['zoom'], 3, 12, 12, 10],
+            'symbol-placement': 'line'
+        },
+        paint: {
+            'text-color': '#fff',
+            'text-halo-color': [
+              'match',
+              ['get', 'TYPE'],
+              'AMTRAK',
+              '#004d6e',
+              'NJ Transit',
+              '#f18541',
+              'NJ Transit Light Rail',
+              '#ffc424',
+              'PATCO',
+              '#ed164b',
+              'Rapid Transit',
+              '#9e3e97',
+              'Regional Rail',
+              '#487997',
+              'Subway',
+              '#f58221',
+              'Subway - Elevated',
+              '#067dc1',
+              'Surface Trolley',
+              '#529442',
+              '#323232'
+            ],
+            'text-halo-width': 2,
+            'text-halo-blur': 3
+        }
+    }
+
+    map.addLayer(railLayer)
+    map.addLayer(railLabelsLayer)
 }
 
 
@@ -329,9 +334,9 @@ map.on('load', () => {
             const tourismHoverLayer = addTourismHover(layer)
 
             if(isRailLayer){
-                map.addLayer(railLayer)
-                map.addLayer(railLabelsLayer)
-            } 
+                addRailLayers()
+            }
+
             map.addLayer(tourismLayer)
             map.addLayer(tourismHoverLayer)
 
