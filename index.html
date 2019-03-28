@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/css/subpage.css">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
     <script defer type="text/javascript" src="./js/geoms.js"></script>
-    <script defer type="text/javascript" src="./js/index.js"></script>
+    <script defer type="module" src="./js/index.js"></script>
 </head>
 <body>
 <div id="leftHandWrap">
@@ -64,7 +64,7 @@
 
     <div class="card">
         <h2>Multimodal Access</h2>
-        <p>There are many agencies and stakeholders promoting Greater Philadelphia as a great place to visit.   DVRPC's focus in the tourism space is ensuring multimodal accessibility to tourist attractions to ensure a positive experience for the visitor.  Approximately 58% of the region's economic impact of tourism occurs in the City of Philadelphia, followed by Bucks and Montgomery counties but how are visitors getting to these attractions outside Center City? Are they accessible via transit or trail? In 2018, DVRPC compiled information about how visitors were accessing the region's 278 tourist attractions.  Published in 2019,  <a href=""><em>Evaluating Access to Tourist Attractions in Greater Philadelphia</em></a> includes a survey conducted to regional tourist attractions about accessibility, as well as an analysis of how different attractions promote multimodal transportation options. Below are highlights from the survey.</p>
+        <p>There are many agencies and stakeholders promoting Greater Philadelphia as a great place to visit.   DVRPC's focus in the tourism space is ensuring multimodal accessibility to tourist attractions to ensure a positive experience for the visitor.  Approximately 58% of the region's economic impact of tourism occurs in the City of Philadelphia, followed by Bucks and Montgomery counties but how are visitors getting to these attractions outside Center City? Are they accessible via transit or trail? In 2018, DVRPC compiled information about how visitors were accessing the region's 278 tourist attractions.  Published in 2019,  <a href="https://www.dvrpc.org/Reports/WP19004.pdf"><em>Evaluating Access to Tourist Attractions in Greater Philadelphia</em></a><span class="sm"> [4.1 MB pdf]</span> includes a survey conducted to regional tourist attractions about accessibility, as well as an analysis of how different attractions promote multimodal transportation options. Below are highlights from the survey.</p>
         <ul id="multimodal-access-ul">
             <li><strong class="multimodal-access-percents">38%</strong> of attractions indicated transportation accessibility is the greatest problem facing their attraction.</li>
             <li><strong class="multimodal-access-percents">20%</strong> of attractions indicated that the greatest problem facing their attraction was transit or non-motorized transportation-related.</li>
@@ -86,10 +86,7 @@
             </select>
         </form>
 
-    <div id="map">
-        <div id="legend">
-        </div>
-    </div>
+    <div id="map"></div>
 
     <div class="card">
         <h2>Tourist Attractions Ranked by 2017 Visitors</h2>
@@ -375,7 +372,7 @@
 <script type="text/javascript" src="/js/homepage/subpage.js"></script>
 <script type="text/javascript">
 	//Bread crumb format will change
-	var crumbs = [{"link": "Home", "href": "/"},{"link": "Funding Opportunities", "href":"/Funding/"},{"link": "Transportation and Community Development Initiative (TCDI)", "href":"#"}];
+	var crumbs = [{"link": "Home", "href": "/"},{"link": "Funding Opportunities", "href":"/Funding/"},{"link": "Economic Development", "href":"/Economic/"},{"link": "Multimodal Access to Tourist Destinations", "href":"/Economic/Tourism/"}];
 	makeBreadCrumbs(crumbs);
 
 	//STAFF CONTACT HERE

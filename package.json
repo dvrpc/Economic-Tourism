@@ -1,0 +1,43 @@
+{
+  "name": "tourism",
+  "version": "1.0.0",
+  "description": "interactive page for information on multimodal access to tourist attractions in the region",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvrpc/Economic-Tourism.git"
+  },
+  "keywords": [
+    "dvrpc",
+    "tourism",
+    "multimodal",
+    "access",
+    "web",
+    "maps"
+  ],
+  "author": "Marc Molta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dvrpc/Economic-Tourism/issues"
+  },
+  "homepage": "https://github.com/dvrpc/Economic-Tourism#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "babel-loader": "^8.0.5",
+    "babel-preset-minify": "^0.5.0",
+    "copy-webpack-plugin": "^5.0.2",
+    "html-webpack-plugin": "^3.2.0",
+    "path": "^0.12.7",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  },
+  "browserslist": "> 0.25%, not dead",
+  "dependencies": {
+    "browserlist": "^1.0.1"
+  }
+}
