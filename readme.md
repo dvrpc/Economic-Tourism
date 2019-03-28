@@ -1,6 +1,6 @@
 # Multimodal Access to Tourist Attractions
 New, interactive webpage for information on multimodal access to tourist attractions within the DVRPC region.  
-[View the page here](www.dvrpc.org/Economic/Tourism "Multimodal Access to Tourist Attractions")
+[View the page here](https://www.dvrpc.org/Economic/Tourism/ "Multimodal Access to Tourist Attractions")
 
 ### Build Process
 * `npm install`
