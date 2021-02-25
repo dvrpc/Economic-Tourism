@@ -1,6 +1,6 @@
 {
   "name": "tourism",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "interactive page for information on multimodal access to tourist attractions in the region",
   "main": "index.js",
   "scripts": {
@@ -26,17 +26,17 @@
   },
   "homepage": "https://github.com/dvrpc/Economic-Tourism#readme",
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
-    "babel-loader": "^8.0.5",
-    "babel-preset-minify": "^0.5.0",
-    "copy-webpack-plugin": "^5.0.2",
-    "html-webpack-plugin": "^3.2.0",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "babel-preset-minify": "^0.5.1",
+    "copy-webpack-plugin": "^5.1.1",
+    "html-webpack-plugin": "^4.0.1",
     "path": "^0.12.7",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   },
-  "browserslist": "> 0.25%, not dead",
+  "browserslist": "> 1% in us, ie 11",
   "dependencies": {
     "browserlist": "^1.0.1"
   }
