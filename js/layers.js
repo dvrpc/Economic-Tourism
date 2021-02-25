@@ -49,7 +49,7 @@ const municipalityOutline = {
 ////
 const railSource = {
     type: 'geojson',
-    data: 'https://opendata.arcgis.com/datasets/5af7a3e9c0f34a7f93ac8935cb6cae3b_0.geojson'
+    data: 'https://arcgis.dvrpc.org/portal/rest/services/Transportation/PassengerRail/FeatureServer/0/query?where=1=1&outFields=type&returnGeometry=true&outSR=4326&f=geojson'
 }
 const railLayer = {
     id: 'rail-layer',
@@ -59,7 +59,7 @@ const railLayer = {
     paint: {
         'line-color': [
             'match',
-            ['get', 'TYPE'],
+            ['get', 'type'],
             'AMTRAK',
             '#004d6e',
             'NJ Transit',
