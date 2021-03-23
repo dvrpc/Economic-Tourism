@@ -80,17 +80,17 @@ hr{
 /* ------- */
 /* --Map-- */
 /* ------- */
-#map-toggle-form{
+.map-toggle-form{
     text-align: center;
     display: flex;
     flex-direction: column;
     font-size: 0.9em;
     align-items: center;
 }
-#map-toggle-select{
+.map-toggle-select{
     max-width: 90%;
 }
-#map{
+.map{
     height: 500px;
     width: 100%;
     margin-bottom: 10px;

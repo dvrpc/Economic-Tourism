@@ -173,7 +173,7 @@ map.on('load', () => {
     map.on('mouseleave', 'VisitorAttractions_All', () => unHoverLayer('VisitorAttractions_All-hover'))
     map.on('click', 'VisitorAttractions_All', e => addPopup(e, null))
 
-    const layerOptions = document.querySelector('#map-toggle-select')
+    const layerOptions = document.querySelector('#tourism-select')
 
     // listen to onchange events for the dropdown
     layerOptions.onchange = e => {
@@ -190,6 +190,8 @@ map.on('load', () => {
         const layers = map.getStyle().layers.slice(3)
 
         // loop thru the existing layers to a) hide them and b) check if the selected layer already exists
+        // @NOTE: this might lead to unusual behavior with the addition of the circuit trails to the layer export
+            // worst case just export two objects - visitorAttractionLayers and circuitLayers. Loop thru attraction here
         layers.forEach(loopedLayer => {
             loopedLayer = loopedLayer.id
 
@@ -227,3 +229,16 @@ map.on('load', () => {
         }
     }
 })
+
+
+// @NEW
+// ideally Spencer agrees that we need TWO maps for this
+// new circuit map:
+    // default view is the entire circuit trails (CP geojson)
+    // dropdown for each trail type (Spencer analysis)
+        // add filter [match, get "analysis-layer"] to only show the ones
+            // ex [match, [get, 'brewery trails'] 1]
+    // line strings for each trail name (copy rail labels jawn)
+        // possibly make this a fnc - parameters for field names
+    // popups
+        // clicking a circuit trail generates a popup with trail name and all the trail types it belongs to
