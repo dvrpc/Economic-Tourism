@@ -123,60 +123,28 @@ const railLabelsLayer = {
         'text-halo-blur': 3
     }
 }
-const circuitAnalysisSource = {
+
+////
+// Circuit Analysis Layers
+////
+const circuitSource = {
     type: 'geojson',
-    data: circuitAnalysis
+    data: circuitTourism
 }
 const circuitAnalysisLayer = {
-    id: 'circuit-analysis',
+    id: 'circuit-trails',
     type: 'line',
-    // using the same geojson and passenger origins cause the tile layer has way too much going on / might be buses?
-    source: circuitAnalysisSource,
-    paint: {
+    source: circuitSource,
+    'paint': {
+        'line-width': 2.5,
         'line-color': [
-            'match',
-            ['get', 'CIRCUIT'],
-            'Existing',
-            '#8ec73d',
-            'In Progress',
-            '#fdae61',
-            'Pipeline',
-            '#b144a5',
-            'Planned',
-            '#2e9ba8',
-            '#323232',
-            
-        ],
-        'line-width': ['interpolate', ['linear'], ['zoom'], 8, 3, 12, 8]
+            'match', ['get', 'CIRCUIT'],
+            'Existing', '#8ec73d',
+            'In Progress', '#fdae61',
+            'Planned', '#b144a5',
+            'Pipeline', '#2e9ba8',
+            '#fff'
+        ]
     }
 }
-const circuitAnalysisLabels = {
-    id: 'rail-labels',
-    type: 'symbol',
-    source: circuitAnalysisSource,
-    layout: {
-        'text-field': '{NAME}',
-        'text-font': ["Montserrat SemiBold", "Open Sans Semibold"],
-        'text-size': ['interpolate', ['linear'], ['zoom'], 3, 12, 12, 10],
-        'symbol-placement': 'line'
-    },
-    paint: {
-        'text-color': '#fff',
-        'text-halo-color': [
-            'match',
-            ['get', 'CIRCUIT'],
-            'Existing',
-            '#8ec73d',
-            'In Progress',
-            '#fdae61',
-            'Pipeline',
-            '#b144a5',
-            'Planned',
-            '#2e9ba8',
-            '#323232',
-        ],
-        'text-halo-width': 2,
-        'text-halo-blur': 3
-    }
-}
-export { countyOutline, countyFill, municipalityOutline, railLayer, railLabelsLayer, circuitAnalysisLayer, circuitAnalysisLabels }
+export { countyOutline, countyFill, municipalityOutline, railLayer, railLabelsLayer, circuitAnalysisLayer }

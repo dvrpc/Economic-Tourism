@@ -17,7 +17,7 @@
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/subpage.css">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
-    <script defer="defer" type="text/javascript" src="bundle.js"></script>
+    <script defer="defer" type="module" src="./js/index.js"></script>
 </head>
 <body>
 <div id="leftHandWrap">
@@ -81,15 +81,23 @@
             <option default value ="All">All Circuit Trails</option>
             <option value ="Brewery">Brewery Trails</option>
             <option value ="College">College Trails</option>
-            <option value ="Diversity">Diversity Trails</option>
+            <option value ="Diverse">Diversity Trails</option>
             <option value ="Downtown">Downtown Trails</option>
-            <option value ="Employment">Employment Trails</option>
+            <option value ="Emp">Employment Trails</option>
             <option value ="Transit">Transit Trails</option>
             <option value ="Connected">Most Connected Trails</option>
         </select>
     </form>
 
-    <div id="map-2" class="map"></div>
+    <div id="map-2" class="map">
+        <ul class="map-legend">
+            <h3 class="legend-header">Circuit Trail Type</h3>
+            <li class="legend-item"><span class="legend-color-block green"></span>Existing</li>
+            <li class="legend-item"><span class="legend-color-block orange"></span>In Progress</li>
+            <li class="legend-item"><span class="legend-color-block purple"></span>Pipeline</li>
+            <li class="legend-item"><span class="legend-color-block cyan"></span>Planned</li>
+        </ul>
+    </div>
 
     <h2 class="tourism-yearly">Visitor Attraction Connectivity</h2>
         <form class="map-toggle-form">
@@ -386,7 +394,7 @@
 </div>
 <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.js"></script>
 <script type="text/javascript" src="/js/homepage/subpage.js"></script>
-<script type="text/javascript" src="./js/geoms.js"></script>
+<script type="text/javascript" src="./js/geoms/geoms.js"></script>
 <script type="text/javascript">
 	//Bread crumb format will change
 	var crumbs = [{"link": "Home", "href": "/"},{"link": "Funding Opportunities", "href":"/Funding/"},{"link": "Economic Development", "href":"/Economic/"},{"link": "Multimodal Access to Tourist Destinations", "href":"/Economic/Tourism/"}];

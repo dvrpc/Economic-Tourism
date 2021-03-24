@@ -7,7 +7,7 @@ const layerData = {
     VisitorAttractions_All,
     VisitorAttractions_Bus,
     VisitorAttractions_Rail,
-    VisitorAttractions_Circuit
+    VisitorAttractions_Circuit,
 }
 
 
@@ -173,7 +173,7 @@ map.on('load', () => {
     map.on('mouseleave', 'VisitorAttractions_All', () => unHoverLayer('VisitorAttractions_All-hover'))
     map.on('click', 'VisitorAttractions_All', e => addPopup(e, null))
 
-    const layerOptions = document.querySelector('#tourism-select')
+    const layerOptions = document.getElementById('tourism-select')
 
     // listen to onchange events for the dropdown
     layerOptions.onchange = e => {
@@ -232,13 +232,85 @@ map.on('load', () => {
 
 
 // @NEW
-// ideally Spencer agrees that we need TWO maps for this
 // new circuit map:
-    // default view is the entire circuit trails (CP geojson)
-    // dropdown for each trail type (Spencer analysis)
-        // add filter [match, get "analysis-layer"] to only show the ones
-            // ex [match, [get, 'brewery trails'] 1]
     // line strings for each trail name (copy rail labels jawn)
         // possibly make this a fnc - parameters for field names
-    // popups
-        // clicking a circuit trail generates a popup with trail name and all the trail types it belongs to
+const mapC = new mapboxgl.Map({
+    container: 'map-2',
+    style: {
+        'version': 8,
+        "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+        'sources': {
+            'Boundaries': {
+                type: 'vector',
+                url: 'https://tiles.dvrpc.org/data/dvrpc-municipal.json'
+            }
+        },
+        'layers': [
+            layers.countyFill,
+            layers.countyOutline,
+            layers.municipalityOutline
+        ]
+    },
+    attributionsControl: false,
+    center: [-75.2273, 40.071],
+    zoom: 3
+});
+
+mapC.fitBounds([[-76.09405517578125, 39.49211914385648],[-74.32525634765625,40.614734298694216]]);
+
+const layerOptionsC = document.getElementById('circuit-select')
+
+const addCircuitPopup = e => {
+    const properties = e.features[0].properties
+    const name = properties['NAME']
+    const mainTrail = properties['MainTrail']
+    const lngLat = e.lngLat
+
+    let html = `
+        <h3 class="popup-title">${name}</h3>
+        <hr />
+        <span>Main Trail: ${mainTrail}</span>
+    `
+
+    return new mapboxgl.Popup({
+        closebutton: true,
+        closeOnClick: true
+    }).setLngLat(lngLat)
+    .setHTML(html)
+}
+
+// // add default with all circuit trails
+mapC.on('load', () => {
+    mapC.addLayer(layers.circuitAnalysisLayer)
+
+    mapC.on('click', 'circuit-trails', e => {
+        const popup = addCircuitPopup(e)
+        popup.addTo(mapC)
+    })
+
+    mapC.on('mousemove', 'circuit-trails', () => mapC.getCanvas().style.cursor = 'pointer')
+    mapC.on('mouseleave', 'circuit-trails', () => mapC.getCanvas().style.cursor = '')
+    
+    // listen to onchange events for the dropdown
+    layerOptionsC.onchange = e => {
+        // get the selected layer
+        const layer = e.target.value
+        let filter;
+        
+        // get the correct filter based on the layer
+        switch(layer) {
+            case 'All':
+                filter = null
+                break
+            case 'Connected':
+                filter = ['==', ['get', 'TTTrails'], 6]
+                break
+            default: 
+                filter = ['==', ['get', layer], 1]
+        }
+        
+        // apply map filter
+        mapC.setFilter('circuit-trails', filter)
+    }
+})
