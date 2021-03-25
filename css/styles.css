@@ -19,6 +19,9 @@ hr{
 .cyan {
     background-color: #2e9ba8;
 }
+:root {
+    --purple: #643b83;
+}
 /* ---------------- */
 /* Regional Impacts */
 /* ---------------- */
@@ -27,7 +30,7 @@ hr{
     font-size: 22.4px;
     font-weight: 700;
     color: #fff !important;
-    background-color: #643b83;
+    background-color: var(--purple);
     margin-bottom: 0;
 }
 .tourism-yearly-container{
@@ -50,7 +53,7 @@ hr{
 }
 .amounts-cat{
     font-size: 1.5rem;
-    color: #643b83;
+    color: var(--purple);
 }
 #yearly-hr{
     margin: 1em 0 0.5em 0;
@@ -83,7 +86,7 @@ hr{
 }
 .multimodal-access-percents{
     font-size: 1.3rem;
-    color: #643b83;
+    color: var(--purple);
     padding-right: 8px;
     margin-right: 8px;
     border-right: 2px solid rgb(247, 148, 29);
