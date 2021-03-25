@@ -77,6 +77,7 @@ const addRailLayers = () => {
     map.addLayer(layers.railLayer)
     map.addLayer(layers.railLabelsLayer)
 }
+const addCircuitLayer = () => map.addLayer(layers.circuitExistingLayer)
 
 
 ////
@@ -179,19 +180,19 @@ map.on('load', () => {
     layerOptions.onchange = e => {
         let hasLayer = false
         let isRailLayer = false
+        let isCircuitLayer = false
 
         // get the selected layer
         const layer = e.target.value
 
         // check if the selected layer is the rail layer
         if(layer === 'VisitorAttractions_Rail') isRailLayer = true
-        
+        if(layer === 'VisitorAttractions_Circuit') isCircuitLayer = true
+
         // get layers (ignore first 3 b/c those are the basemap)
         const layers = map.getStyle().layers.slice(3)
 
         // loop thru the existing layers to a) hide them and b) check if the selected layer already exists
-        // @NOTE: this might lead to unusual behavior with the addition of the circuit trails to the layer export
-            // worst case just export two objects - visitorAttractionLayers and circuitLayers. Loop thru attraction here
         layers.forEach(loopedLayer => {
             loopedLayer = loopedLayer.id
 
@@ -202,7 +203,7 @@ map.on('load', () => {
 
         // if the layer already exists on the map, toggle it's visibility
         if(hasLayer){
-            const hoverLayer = layer+'-hover'      
+            const hoverLayer = layer+'-hover'
 
             map.setLayoutProperty(layer, 'visibility', 'visible')
             map.setLayoutProperty(hoverLayer, 'visibility', 'visible')
@@ -211,6 +212,10 @@ map.on('load', () => {
                 map.setLayoutProperty('rail-layer', 'visibility', 'visible')
                 map.setLayoutProperty('rail-labels', 'visibility', 'visible')
             }
+            
+            if(isCircuitLayer) {
+                map.setLayoutProperty('circuit-trails-existing', 'visibility', 'visible')
+            }
         
         // otherwise add it to the map
         }else{
@@ -218,6 +223,7 @@ map.on('load', () => {
             const tourismHoverLayer = addTourismHover(layer)
 
             if(isRailLayer) addRailLayers()
+            if(isCircuitLayer) addCircuitLayer()
 
             map.addLayer(tourismLayer)
             map.addLayer(tourismHoverLayer)
@@ -304,7 +310,9 @@ mapC.on('load', () => {
                 filter = null
                 break
             case 'Connected':
-                filter = ['==', ['get', 'TTTrails'], 6]
+                // this throws an error for some reason
+                // filter = ['>', ['get', 'TTTrails'], 5]
+                filter = ['any', ['==', ['get', 'TTTrails'], 6], ['==', ['get', 'TTTrails'], 7]]
                 break
             default: 
                 filter = ['==', ['get', layer], 1]

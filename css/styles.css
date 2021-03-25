@@ -28,6 +28,7 @@ hr{
     font-weight: 700;
     color: #fff !important;
     background-color: #643b83;
+    margin-bottom: 0;
 }
 .tourism-yearly-container{
     display: flex;
@@ -39,11 +40,12 @@ hr{
     text-align: center;
 }
 .amounts h3{
-    font-size: 3rem;
+    font-size: 2.25rem;
     color: rgb(247, 148, 29);
     font-weight: 500;
 }
 .amounts-num{
+    font-size: 3rem;
     font-weight: 700;
 }
 .amounts-cat{
@@ -97,6 +99,7 @@ hr{
     flex-direction: column;
     font-size: 0.9em;
     align-items: center;
+    margin-top: 0;
 }
 .map-toggle-select{
     max-width: 90%;

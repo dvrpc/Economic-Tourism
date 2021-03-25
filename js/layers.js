@@ -147,4 +147,18 @@ const circuitAnalysisLayer = {
         ]
     }
 }
-export { countyOutline, countyFill, municipalityOutline, railLayer, railLabelsLayer, circuitAnalysisLayer }
+const circuitExistingLayer = {
+    id: 'circuit-trails-existing',
+    type: 'line',
+    source: circuitSource,
+    'paint': {
+        'line-width': 2.5,
+        'line-color': [
+            'match', ['get', 'CIRCUIT'],
+            'Existing', '#8ec73d',
+            'rgb(136, 137, 140)'
+        ]
+    },
+    filter: ['==', ['get', 'CIRCUIT'], 'Existing']
+}
+export { countyOutline, countyFill, municipalityOutline, railLayer, railLabelsLayer, circuitAnalysisLayer, circuitExistingLayer }
