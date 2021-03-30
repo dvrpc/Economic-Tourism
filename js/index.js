@@ -320,7 +320,7 @@ mapC.on('load', () => {
             case 'Connected':
                 // this throws an error for some reason
                 // filter = ['>', ['get', 'TTTrails'], 5]
-                filter = ['any', ['==', ['get', 'TTTrails'], 6], ['==', ['get', 'TTTrails'], 7]]
+                filter = ['==', ['get', 'TTTrails'], 6]
                 break
             default: 
                 filter = ['==', ['get', layer], 1]
