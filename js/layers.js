@@ -45,7 +45,7 @@ const municipalityOutline = {
 
 
 ////
-// Rail layers
+// Transit layers
 ////
 const railSource = {
     type: 'geojson',
@@ -123,6 +123,25 @@ const railLabelsLayer = {
         'text-halo-blur': 3
     }
 }
+const busSource = {
+    type: "vector",
+    url: "https://tiles.dvrpc.org/data/dvrpc-tim-transit.json"
+}
+const busLayer = {
+    id: 'bus-layer',
+    type: 'line',
+    source: busSource,
+    'source-layer': 'transit_lines',
+    paint: {
+        'line-width': [ 'interpolate',
+            ['linear'], ['zoom'],
+            9, 0.75,
+            12, 3
+          ],
+        'line-color': '#F3F9D2'
+    }
+}
+
 
 ////
 // Circuit Analysis Layers
@@ -141,8 +160,8 @@ const circuitAnalysisLayer = {
             'match', ['get', 'CIRCUIT'],
             'Existing', '#8ec73d',
             'In Progress', '#fdae61',
-            'Planned', '#b144a5',
-            'Pipeline', '#2e9ba8',
+            'Planned', '#2e9ba8',
+            'Pipeline', '#b144a5',
             '#fff'
         ]
     }
@@ -156,9 +175,10 @@ const circuitExistingLayer = {
         'line-color': [
             'match', ['get', 'CIRCUIT'],
             'Existing', '#8ec73d',
+            'In Progress', '#fdae61',
+            'Planned', '#2e9ba8',
             'rgb(136, 137, 140)'
         ]
-    },
-    filter: ['==', ['get', 'CIRCUIT'], 'Existing']
+    }
 }
-export { countyOutline, countyFill, municipalityOutline, railLayer, railLabelsLayer, circuitAnalysisLayer, circuitExistingLayer }
+export { countyOutline, countyFill, municipalityOutline, railLayer, railLabelsLayer, circuitAnalysisLayer, circuitExistingLayer, busLayer}

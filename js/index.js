@@ -78,6 +78,7 @@ const addRailLayers = () => {
     map.addLayer(layers.railLabelsLayer)
 }
 const addCircuitLayer = () => map.addLayer(layers.circuitExistingLayer)
+const addBusLayer = () => map.addLayer(layers.busLayer)
 
 
 ////
@@ -181,6 +182,7 @@ map.on('load', () => {
         let hasLayer = false
         let isRailLayer = false
         let isCircuitLayer = false
+        let isBusLayer = false
 
         // get the selected layer
         const layer = e.target.value
@@ -188,6 +190,7 @@ map.on('load', () => {
         // check if the selected layer is the rail layer
         if(layer === 'VisitorAttractions_Rail') isRailLayer = true
         if(layer === 'VisitorAttractions_Circuit') isCircuitLayer = true
+        if(layer === 'VisitorAttractions_Bus') isBusLayer = true
 
         // get layers (ignore first 3 b/c those are the basemap)
         const layers = map.getStyle().layers.slice(3)
@@ -216,6 +219,10 @@ map.on('load', () => {
             if(isCircuitLayer) {
                 map.setLayoutProperty('circuit-trails-existing', 'visibility', 'visible')
             }
+
+            if(isBusLayer) {
+                map.setLayoutProperty('bus-layer', 'visibility', 'visible')
+            }
         
         // otherwise add it to the map
         }else{
@@ -224,6 +231,7 @@ map.on('load', () => {
 
             if(isRailLayer) addRailLayers()
             if(isCircuitLayer) addCircuitLayer()
+            if(isBusLayer) addBusLayer()
 
             map.addLayer(tourismLayer)
             map.addLayer(tourismHoverLayer)
@@ -312,7 +320,7 @@ mapC.on('load', () => {
             case 'Connected':
                 // this throws an error for some reason
                 // filter = ['>', ['get', 'TTTrails'], 5]
-                filter = ['any', ['==', ['get', 'TTTrails'], 6], ['==', ['get', 'TTTrails'], 7]]
+                filter = ['==', ['get', 'TTTrails'], 6]
                 break
             default: 
                 filter = ['==', ['get', layer], 1]
