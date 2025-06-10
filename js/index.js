@@ -1,66 +1,28 @@
 import * as layers from "./layers.js";
-import {
-  VisitorAttractions_All,
-  VisitorAttractions_Bus,
-  VisitorAttractions_Circuit,
-  VisitorAttractions_Rail,
-} from "./geoms/geoms.js";
+import { inputs } from "./inputs.js";
+
 ////
 // Tourism geojsons
 ////
-const layerData = {
-  VisitorAttractions_All,
-  VisitorAttractions_Bus,
-  VisitorAttractions_Rail,
-  VisitorAttractions_Circuit,
+
+let selectedLayer = "VisitorAttractions_All";
+const idMap = {
+  VisitorAttractions_All: "est",
+  VisitorAttractions_Bus: "bus",
+  VisitorAttractions_Rail: "rail",
+  VisitorAttractions_Circuit: "trails",
 };
 
 ////
 // Functions to Create tourism layers, hover layers and rail layers
 ////
 const addTourismLayer = (layer) => {
-  // use e (value of the selected option) to pick the correct dataSource
-  const data = layerData[layer];
-
-  return {
-    id: layer,
-    type: "circle",
-    source: {
-      type: "geojson",
-      data,
-    },
-    paint: {
-      "circle-radius": 5,
-      "circle-color": "#F7941D",
-      "circle-opacity": 1,
-      "circle-stroke-width": 1.25,
-      "circle-stroke-color": "#643b83",
-      "circle-stroke-opacity": 0.9,
-    },
-  };
+  const prevLayer = selectedLayer;
+  prevLayer && map.setLayoutProperty(idMap[prevLayer], "visibility", "none");
+  map.setLayoutProperty(idMap[layer], "visibility", "visible");
+  selectedLayer = layer;
 };
-const addTourismHover = (layer) => {
-  const data = layerData[layer];
 
-  return {
-    id: layer + "-hover",
-    type: "circle",
-    source: {
-      type: "geojson",
-      data,
-    },
-    layout: {},
-    paint: {
-      "circle-radius": 6,
-      "circle-color": "#643b83",
-      "circle-opacity": 1,
-      "circle-stroke-width": 1.25,
-      "circle-stroke-color": "#643b83",
-      "circle-stroke-opacity": 1,
-    },
-    filter: ["==", "OBJECTID_1", ""],
-  };
-};
 const hoverLayer = (e, layer) => {
   const id = e.features[0].properties["OBJECTID_1"];
 
@@ -148,6 +110,10 @@ const map = new mapboxgl.Map({
         type: "vector",
         url: "https://tiles.dvrpc.org/data/dvrpc-municipal.json",
       },
+      Tourism: {
+        type: "geojson",
+        data: "https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/Retail/FeatureServer/6/query?where=1%3D1&objectIds=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&returnEnvelope=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&collation=&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnTrueCurves=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pgeojson&token=",
+      },
     },
     layers: [
       layers.countyFill,
@@ -167,12 +133,8 @@ map.fitBounds([
 
 map.on("load", () => {
   // load VisitorAttractions_All by default
-  const defaultLayer = addTourismLayer("VisitorAttractions_All");
-  const defaultHoverLayer = addTourismHover("VisitorAttractions_All");
 
-  map.addLayer(defaultLayer);
-  map.addLayer(defaultHoverLayer);
-
+  inputs.map((layer) => map.addLayer({ ...layer }));
   // listen for mouse events on default layer
   map.on("mousemove", "VisitorAttractions_All", (e) =>
     hoverLayer(e, "VisitorAttractions_All-hover")
@@ -237,15 +199,11 @@ map.on("load", () => {
 
       // otherwise add it to the map
     } else {
-      const tourismLayer = addTourismLayer(layer);
-      const tourismHoverLayer = addTourismHover(layer);
+      addTourismLayer(layer);
 
       if (isRailLayer) addRailLayers();
       if (isCircuitLayer) addCircuitLayer();
       if (isBusLayer) addBusLayer();
-
-      map.addLayer(tourismLayer);
-      map.addLayer(tourismHoverLayer);
 
       // add mouse events
       map.on("mousemove", layer, (e) => hoverLayer(e, layer + "-hover"));
