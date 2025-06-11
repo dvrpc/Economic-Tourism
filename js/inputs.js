@@ -1,6 +1,6 @@
 const inputs = [
   {
-    id: "est",
+    id: "VisitorAttractions_All",
     title: "all",
     type: "fill",
     source: "Tourism",
@@ -22,7 +22,7 @@ const inputs = [
     },
   },
   {
-    id: "bus",
+    id: "VisitorAttractions_Bus",
     title: "bus",
     type: "fill",
     source: "Tourism",
@@ -43,7 +43,7 @@ const inputs = [
     },
   },
   {
-    id: "rail",
+    id: "VisitorAttractions_Rail",
     title: "rail",
     type: "fill",
     source: "Tourism",
@@ -64,7 +64,7 @@ const inputs = [
     },
   },
   {
-    id: "trails",
+    id: "VisitorAttractions_Circuit",
     title: "circuit trails",
     type: "fill",
     source: "Tourism",

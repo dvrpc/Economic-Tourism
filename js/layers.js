@@ -48,6 +48,9 @@ const railLayer = {
   type: "line",
   // using the same geojson and passenger origins cause the tile layer has way too much going on / might be buses?
   source: railSource,
+  layout: {
+    visibility: "none",
+  },
   paint: {
     "line-color": [
       "match",
@@ -85,6 +88,7 @@ const railLabelsLayer = {
     "text-font": ["Montserrat SemiBold", "Open Sans Semibold"],
     "text-size": ["interpolate", ["linear"], ["zoom"], 3, 12, 12, 10],
     "symbol-placement": "line",
+    visibility: "none",
   },
   paint: {
     "text-color": "#fff",
@@ -124,6 +128,9 @@ const busLayer = {
   type: "line",
   source: busSource,
   "source-layer": "transit_lines",
+  layout: {
+    visibility: "none",
+  },
   paint: {
     "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.75, 12, 3],
     "line-color": "#F3F9D2",
@@ -141,6 +148,9 @@ const circuitAnalysisLayer = {
   id: "circuit-trails",
   type: "line",
   source: circuitSource,
+  layout: {
+    visibility: "none",
+  },
   paint: {
     "line-width": 2.5,
     "line-color": [
@@ -162,6 +172,9 @@ const circuitExistingLayer = {
   id: "circuit-trails-existing",
   type: "line",
   source: circuitSource,
+  layout: {
+    visibility: "none",
+  },
   paint: {
     "line-width": 2.5,
     "line-color": [

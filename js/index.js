@@ -6,20 +6,14 @@ import { inputs } from "./inputs.js";
 ////
 
 let selectedLayer = "VisitorAttractions_All";
-const idMap = {
-  VisitorAttractions_All: "est",
-  VisitorAttractions_Bus: "bus",
-  VisitorAttractions_Rail: "rail",
-  VisitorAttractions_Circuit: "trails",
-};
 
 ////
 // Functions to Create tourism layers, hover layers and rail layers
 ////
 const addTourismLayer = (layer) => {
   const prevLayer = selectedLayer;
-  prevLayer && map.setLayoutProperty(idMap[prevLayer], "visibility", "none");
-  map.setLayoutProperty(idMap[layer], "visibility", "visible");
+  prevLayer && map.setLayoutProperty(prevLayer, "visibility", "none");
+  map.setLayoutProperty(layer, "visibility", "visible");
   selectedLayer = layer;
 };
 
@@ -135,14 +129,9 @@ map.on("load", () => {
   // load VisitorAttractions_All by default
 
   inputs.map((layer) => map.addLayer({ ...layer }));
-  // listen for mouse events on default layer
-  map.on("mousemove", "VisitorAttractions_All", (e) =>
-    hoverLayer(e, "VisitorAttractions_All-hover")
-  );
-  map.on("mouseleave", "VisitorAttractions_All", () =>
-    unHoverLayer("VisitorAttractions_All-hover")
-  );
-  map.on("click", "VisitorAttractions_All", (e) => addPopup(e, null));
+  addRailLayers();
+  addCircuitLayer();
+  addBusLayer();
 
   const layerOptions = document.getElementById("tourism-select");
 
@@ -175,10 +164,7 @@ map.on("load", () => {
 
     // if the layer already exists on the map, toggle it's visibility
     if (hasLayer) {
-      const hoverLayer = layer + "-hover";
-
       map.setLayoutProperty(layer, "visibility", "visible");
-      map.setLayoutProperty(hoverLayer, "visibility", "visible");
 
       if (isRailLayer) {
         map.setLayoutProperty("rail-layer", "visibility", "visible");
@@ -189,7 +175,7 @@ map.on("load", () => {
         map.setLayoutProperty(
           "circuit-trails-existing",
           "visibility",
-          "visible"
+          "visible",
         );
       }
 
@@ -278,12 +264,12 @@ mapC.on("load", () => {
   mapC.on(
     "mousemove",
     "circuit-trails",
-    () => (mapC.getCanvas().style.cursor = "pointer")
+    () => (mapC.getCanvas().style.cursor = "pointer"),
   );
   mapC.on(
     "mouseleave",
     "circuit-trails",
-    () => (mapC.getCanvas().style.cursor = "")
+    () => (mapC.getCanvas().style.cursor = ""),
   );
 
   // listen to onchange events for the dropdown
