@@ -162,7 +162,7 @@ hr{
     position: absolute;
     width: fit-content;
     display: flex;
-    margin-top: -10em;
+    margin-top: -7.5em;
     flex-direction: column;
     gap: .25em;
     z-index: 99;
@@ -174,7 +174,7 @@ hr{
 	border-radius: 4px;
 	line-height: 1.33;
 	outline: none;
-	padding: 0.75em; 
+	padding: 0.5em; 
 }
 
 .hex-val {

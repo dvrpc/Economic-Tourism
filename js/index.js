@@ -127,6 +127,8 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiY3J2YW5wb2xsYXJkIiwiYSI6ImNseHVpZmprazI4bWoycXB2MTljMWF1YjUifQ.jLMaSXqIUV5N2IxYlk5ZiQ";
 
 const map = new mapboxgl.Map({
+  maxZoom: 17,
+  minZoom: 8,
   container: "map",
   style: {
     version: 8,
