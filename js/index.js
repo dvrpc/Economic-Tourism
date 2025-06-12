@@ -6,6 +6,18 @@ import { inputs } from "./inputs.js";
 ////
 
 let selectedLayer = "VisitorAttractions_All";
+const hexMap = [
+  {
+    "3-6": "#cfb7e5",
+    "7-11": "#8139B8",
+    "12-20": "#662d91",
+    "21-42": "#2b1956",
+  }, 
+  {
+    "Yes": "#f7941d",
+    "No": "#88898c",
+  }
+]
 
 ////
 // Functions to Create tourism layers, hover layers and rail layers
@@ -16,6 +28,26 @@ const addTourismLayer = (layer) => {
   map.setLayoutProperty(layer, "visibility", "visible");
   selectedLayer = layer;
 };
+
+const generateLegend = () => {
+  const legend = document.querySelector('#legend')
+  legend.innerHTML = ''
+  const hex = selectedLayer === 'VisitorAttractions_All' ? hexMap[0] : hexMap[1]
+  Object.keys(hex)
+    .map((val) => {
+      const row = document.createElement('span')
+      row.classList.add('hex-row')
+      const label = document.createElement('span')
+      const color = document.createElement('span')
+      color.classList.add('hex-val')
+      color.classList.add('hex-color')
+      color.style.backgroundColor = hex[val]
+      label.textContent = val
+      row.appendChild(color)
+      row.appendChild(label)
+      legend.appendChild(row)
+    })
+}
 
 const hoverLayer = (e, layer) => {
   const id = e.features[0].properties["OBJECTID_1"];
@@ -125,13 +157,15 @@ map.fitBounds([
   [-74.32525634765625, 40.614734298694216],
 ]);
 
+
+
 map.on("load", () => {
   // load VisitorAttractions_All by default
-
   inputs.map((layer) => map.addLayer({ ...layer }));
   addRailLayers();
   addCircuitLayer();
   addBusLayer();
+  generateLegend();
 
   const layerOptions = document.getElementById("tourism-select");
 
@@ -165,6 +199,8 @@ map.on("load", () => {
     // if the layer already exists on the map, toggle it's visibility
     if (hasLayer) {
       map.setLayoutProperty(layer, "visibility", "visible");
+      selectedLayer = layer
+      generateLegend()
 
       if (isRailLayer) {
         map.setLayoutProperty("rail-layer", "visibility", "visible");
@@ -186,6 +222,7 @@ map.on("load", () => {
       // otherwise add it to the map
     } else {
       addTourismLayer(layer);
+      selectedLayer = layer
 
       if (isRailLayer) addRailLayers();
       if (isCircuitLayer) addCircuitLayer();

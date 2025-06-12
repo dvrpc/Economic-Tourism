@@ -10,13 +10,13 @@ const inputs = [
         ["get", "est"],
         "#FFFFFF",
         3,
-        "#2b1956",
-        6,
-        "#662d91",
-        11,
-        "#8139B8",
-        21,
         "#cfb7e5",
+        6,
+        "#8139B8",
+        11,
+        "#662d91",
+        21,
+        "#2b1956",
       ],
       "fill-opacity": 0.7,
     },
@@ -26,6 +26,7 @@ const inputs = [
     title: "bus",
     type: "fill",
     source: "Tourism",
+    filter: [">", ["to-number", ["get", "est"]], 0],
     layout: {
       visibility: "none",
     },
@@ -50,6 +51,7 @@ const inputs = [
     layout: {
       visibility: "none",
     },
+    filter: [">", ["to-number", ["get", "est"]], 0],
     paint: {
       "fill-color": [
         "match",
@@ -68,6 +70,7 @@ const inputs = [
     title: "circuit trails",
     type: "fill",
     source: "Tourism",
+    filter: [">", ["to-number", ["get", "est"]], 0],
     layout: {
       visibility: "none",
     },
