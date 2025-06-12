@@ -8,7 +8,7 @@ const inputs = [
       "fill-color": [
         "step",
         ["get", "est"],
-        "#FFFFFF",
+        "transparent",
         3,
         "#cfb7e5",
         6,

@@ -9,19 +9,7 @@ const countyOutline = {
   "source-layer": "county",
   paint: {
     "line-width": 2.5,
-    "line-color": "#fff",
-  },
-  filter: ["==", "dvrpc", "Yes"],
-};
-const countyFill = {
-  id: "county-fill",
-  type: "fill",
-  source: "Boundaries",
-  "source-layer": "county",
-  layout: {},
-  paint: {
-    "fill-color": "rgb(136, 137, 140)",
-    "fill-opacity": 1,
+    "line-color": "dimgray",
   },
   filter: ["==", "dvrpc", "Yes"],
 };
@@ -31,8 +19,8 @@ const municipalityOutline = {
   source: "Boundaries",
   "source-layer": "municipalities",
   paint: {
-    "line-width": 0.5,
-    "line-color": "#f7f7f7",
+    "line-width": 1,
+    "line-color": "gray",
   },
 };
 
@@ -192,7 +180,6 @@ const circuitExistingLayer = {
 };
 export {
   countyOutline,
-  countyFill,
   municipalityOutline,
   railLayer,
   railLabelsLayer,

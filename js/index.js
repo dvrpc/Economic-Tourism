@@ -144,7 +144,6 @@ const map = new mapboxgl.Map({
       },
     },
     layers: [
-      layers.countyFill,
       layers.countyOutline,
       layers.municipalityOutline,
     ],
@@ -158,8 +157,6 @@ map.fitBounds([
   [-76.09405517578125, 39.49211914385648],
   [-74.32525634765625, 40.614734298694216],
 ]);
-
-
 
 map.on("load", () => {
   // load VisitorAttractions_All by default
@@ -187,7 +184,7 @@ map.on("load", () => {
     if (layer === "VisitorAttractions_Bus") isBusLayer = true;
 
     // get layers (ignore first 3 b/c those are the basemap)
-    const layers = map.getStyle().layers.slice(3);
+    const layers = map.getStyle().layers.slice(2);
 
     // loop thru the existing layers to a) hide them and b) check if the selected layer already exists
     layers.forEach((loopedLayer) => {
@@ -220,7 +217,6 @@ map.on("load", () => {
       if (isBusLayer) {
         map.setLayoutProperty("bus-layer", "visibility", "visible");
       }
-
       // otherwise add it to the map
     } else {
       addTourismLayer(layer);
@@ -231,9 +227,9 @@ map.on("load", () => {
       if (isBusLayer) addBusLayer();
 
       // add mouse events
-      map.on("mousemove", layer, (e) => hoverLayer(e, layer + "-hover"));
-      map.on("mouseleave", layer, () => unHoverLayer(layer + "-hover"));
-      map.on("click", layer, (e) => addPopup(e, layer));
+      // map.on("mousemove", layer, (e) => hoverLayer(e, layer + "-hover"));
+      // map.on("mouseleave", layer, () => unHoverLayer(layer + "-hover"));
+      // map.on("click", layer, (e) => addPopup(e, layer));
     }
   };
 });
