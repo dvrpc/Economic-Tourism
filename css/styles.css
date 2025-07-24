@@ -232,3 +232,13 @@ hr {
 .modal-content > p {
   margin: 0.5rem;
 }
+
+#btn-wrapper {
+  width: 100%;
+  display: flex;
+}
+
+#myBtn {
+  margin-left: auto;
+}
+
