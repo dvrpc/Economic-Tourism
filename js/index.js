@@ -12,12 +12,12 @@ const hexMap = [
     "7-11": "#8139B8",
     "12-20": "#662d91",
     "21-42": "#2b1956",
-  }, 
+  },
   {
-    "Yes": "#f7941d",
-    "No": "#88898c",
-  }
-]
+    Yes: "#f7941d",
+    No: "#88898c",
+  },
+];
 
 ////
 // Functions to Create tourism layers, hover layers and rail layers
@@ -30,24 +30,24 @@ const addTourismLayer = (layer) => {
 };
 
 const generateLegend = () => {
-  const legend = document.querySelector('#legend')
-  legend.innerHTML = ''
-  const hex = selectedLayer === 'VisitorAttractions_All' ? hexMap[0] : hexMap[1]
-  Object.keys(hex)
-    .map((val) => {
-      const row = document.createElement('span')
-      row.classList.add('hex-row')
-      const label = document.createElement('span')
-      const color = document.createElement('span')
-      color.classList.add('hex-val')
-      color.classList.add('hex-color')
-      color.style.backgroundColor = hex[val]
-      label.textContent = val
-      row.appendChild(color)
-      row.appendChild(label)
-      legend.appendChild(row)
-    })
-}
+  const legend = document.querySelector("#legend");
+  legend.innerHTML = "";
+  const hex =
+    selectedLayer === "VisitorAttractions_All" ? hexMap[0] : hexMap[1];
+  Object.keys(hex).map((val) => {
+    const row = document.createElement("span");
+    row.classList.add("hex-row");
+    const label = document.createElement("span");
+    const color = document.createElement("span");
+    color.classList.add("hex-val");
+    color.classList.add("hex-color");
+    color.style.backgroundColor = hex[val];
+    label.textContent = val;
+    row.appendChild(color);
+    row.appendChild(label);
+    legend.appendChild(row);
+  });
+};
 
 const hoverLayer = (e, layer) => {
   const id = e.features[0].properties["OBJECTID_1"];
@@ -143,12 +143,8 @@ const map = new mapboxgl.Map({
         data: "https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/Retail/FeatureServer/6/query?where=1%3D1&objectIds=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&returnEnvelope=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&collation=&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnTrueCurves=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pgeojson&token=",
       },
     },
-    layers: [
-      layers.countyOutline,
-      layers.municipalityOutline,
-    ],
+    layers: [layers.countyOutline, layers.municipalityOutline],
   },
-  attributionsControl: false,
   center: [-75.2273, 40.071],
   zoom: 3,
 });
@@ -198,8 +194,8 @@ map.on("load", () => {
     // if the layer already exists on the map, toggle it's visibility
     if (hasLayer) {
       map.setLayoutProperty(layer, "visibility", "visible");
-      selectedLayer = layer
-      generateLegend()
+      selectedLayer = layer;
+      generateLegend();
 
       if (isRailLayer) {
         map.setLayoutProperty("rail-layer", "visibility", "visible");
@@ -220,7 +216,7 @@ map.on("load", () => {
       // otherwise add it to the map
     } else {
       addTourismLayer(layer);
-      selectedLayer = layer
+      selectedLayer = layer;
 
       if (isRailLayer) addRailLayers();
       if (isCircuitLayer) addCircuitLayer();
@@ -238,96 +234,121 @@ map.on("load", () => {
 // new circuit map:
 // line strings for each trail name (copy rail labels jawn)
 // possibly make this a fnc - parameters for field names
-const mapC = new mapboxgl.Map({
-  container: "map-2",
-  style: {
-    version: 8,
-    glyphs: "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
-    sources: {
-      Boundaries: {
-        type: "vector",
-        url: "https://tiles.dvrpc.org/data/dvrpc-municipal.json",
-      },
-    },
-    layers: [
-      layers.countyFill,
-      layers.countyOutline,
-      layers.municipalityOutline,
-    ],
-  },
-  attributionsControl: false,
-  center: [-75.2273, 40.071],
-  zoom: 3,
-});
+// const mapC = new mapboxgl.Map({
+//   container: "map-2",
+//   style: {
+//     version: 8,
+//     glyphs: "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+//     sources: {
+//       Boundaries: {
+//         type: "vector",
+//         url: "https://tiles.dvrpc.org/data/dvrpc-municipal.json",
+//       },
+//     },
+//     layers: [
+//       layers.countyFill,
+//       layers.countyOutline,
+//       layers.municipalityOutline,
+//     ],
+//   },
+//   attributionsControl: false,
+//   center: [-75.2273, 40.071],
+//   zoom: 3,
+// });
 
-mapC.fitBounds([
-  [-76.09405517578125, 39.49211914385648],
-  [-74.32525634765625, 40.614734298694216],
-]);
+// mapC.fitBounds([
+//   [-76.09405517578125, 39.49211914385648],
+//   [-74.32525634765625, 40.614734298694216],
+// ]);
 
-const layerOptionsC = document.getElementById("circuit-select");
+// const layerOptionsC = document.getElementById("circuit-select");
 
-const addCircuitPopup = (e) => {
-  const properties = e.features[0].properties;
-  const name = properties["NAME"];
-  const mainTrail = properties["MainTrail"];
-  const lngLat = e.lngLat;
+// const addCircuitPopup = (e) => {
+//   const properties = e.features[0].properties;
+//   const name = properties["NAME"];
+//   const mainTrail = properties["MainTrail"];
+//   const lngLat = e.lngLat;
 
-  let html = `
-        <h3 class="popup-title">${name}</h3>
-        <hr />
-        <span>Main Trail: ${mainTrail}</span>
-    `;
+//   let html = `
+//         <h3 class="popup-title">${name}</h3>
+//         <hr />
+//         <span>Main Trail: ${mainTrail}</span>
+//     `;
 
-  return new mapboxgl.Popup({
-    closebutton: true,
-    closeOnClick: true,
-  })
-    .setLngLat(lngLat)
-    .setHTML(html);
-};
+//   return new mapboxgl.Popup({
+//     closebutton: true,
+//     closeOnClick: true,
+//   })
+//     .setLngLat(lngLat)
+//     .setHTML(html);
+// };
 
 // // add default with all circuit trails
-mapC.on("load", () => {
-  mapC.addLayer(layers.circuitAnalysisLayer);
+// mapC.on("load", () => {
+//   mapC.addLayer(layers.circuitAnalysisLayer);
 
-  mapC.on("click", "circuit-trails", (e) => {
-    const popup = addCircuitPopup(e);
-    popup.addTo(mapC);
-  });
+//   mapC.on("click", "circuit-trails", (e) => {
+//     const popup = addCircuitPopup(e);
+//     popup.addTo(mapC);
+//   });
 
-  mapC.on(
-    "mousemove",
-    "circuit-trails",
-    () => (mapC.getCanvas().style.cursor = "pointer"),
-  );
-  mapC.on(
-    "mouseleave",
-    "circuit-trails",
-    () => (mapC.getCanvas().style.cursor = ""),
-  );
+//   mapC.on(
+//     "mousemove",
+//     "circuit-trails",
+//     () => (mapC.getCanvas().style.cursor = "pointer"),
+//   );
+//   mapC.on(
+//     "mouseleave",
+//     "circuit-trails",
+//     () => (mapC.getCanvas().style.cursor = ""),
+//   );
 
-  // listen to onchange events for the dropdown
-  layerOptionsC.onchange = (e) => {
-    // get the selected layer
-    const layer = e.target.value;
-    let filter;
+//   // listen to onchange events for the dropdown
+//   layerOptionsC.onchange = (e) => {
+//     // get the selected layer
+//     const layer = e.target.value;
+//     let filter;
 
-    // get the correct filter based on the layer
-    switch (layer) {
-      case "All":
-        filter = null;
-        break;
-      case "Connected":
-        // this throws an error for some reason
-        // filter = ['>', ['get', 'TTTrails'], 5]
-        filter = ["==", ["get", "TTTrails"], 6];
-        break;
-      default:
-        filter = ["==", ["get", layer], 1];
-    }
+//     // get the correct filter based on the layer
+//     switch (layer) {
+//       case "All":
+//         filter = null;
+//         break;
+//       case "Connected":
+//         // this throws an error for some reason
+//         // filter = ['>', ['get', 'TTTrails'], 5]
+//         filter = ["==", ["get", "TTTrails"], 6];
+//         break;
+//       default:
+//         filter = ["==", ["get", layer], 1];
+//     }
 
-    // apply map filter
-    mapC.setFilter("circuit-trails", filter);
-  };
-});
+//     // apply map filter
+//     mapC.setFilter("circuit-trails", filter);
+//   };
+// });
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function () {
+  modal.style.display = "block";
+};
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+};
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+} 

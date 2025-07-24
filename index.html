@@ -57,12 +57,15 @@
 
                                 <hr>
 
-                                <h2 class="tourism-yearly">Tourist Attraction Connection</h2>
+                                <h2 class="tourism-yearly">Tourist Attraction Connectivity</h2>
                                 <form class="map-toggle-form">
-                                    <p>Explore Visitor Attraction Connectivity in the map below. Select an option from
-                                        the dropdown menu to update the Visitor Attractions on the map.</p>
+                                    <p>Explore Greater Philadelphia Attraction Connectivity by zip code in the map
+                                        below. Select an option from
+                                        the dropdown menu to better understand where multimodal access to tourist
+                                        attractions is greatest across the region.</p>
                                     <select class="map-toggle-select" id="tourism-select">
-                                        <option default value="VisitorAttractions_All">All</option>
+                                        <option default value="VisitorAttractions_All">Total Attractions by Zip Code
+                                        </option>
                                         <option value="VisitorAttractions_Bus">Located within a Bus Walkshed (1/4 mile
                                             radius of a bus stop)</option>
                                         <option value="VisitorAttractions_Rail">Located within a Rail Walkshed (1/2 mile
@@ -71,9 +74,60 @@
                                             Walkshed (1/4 mile radius of a planned or completed)</option>
                                     </select>
                                 </form>
+                                <!-- Trigger/Open The Modal -->
 
+                                <!-- The Modal -->
+                                <div id="myModal" class="modal">
+
+                                    <!-- Modal content -->
+                                    <div class="modal-content">
+                                        <span class="close">&times;</span>
+                                        <p>The <a
+                                                href="https://www.google.com/url?q=https://www.census.gov/naics/&amp;sa=D&amp;source=editors&amp;ust=1753380611289154&amp;usg=AOvVaw0zB3P0Res2p7gAO9JMj8Sq">North
+                                                American Industry Classification System</a> (NAICS) identifies 20
+                                            distinct industry sectors that comprise national and regional economies.
+                                            Each of these industries are assigned a unique NAICS code.</p>
+                                        <p>While there is no distinct NAICS code used to identify the tourism
+                                            industry, for analysis purposes DVRPC identified the following as relevant
+                                            subsectors within the tourism industry, and mapped them at the zip code
+                                            level across Greater Philadelphia:</p>
+                                        <p><b>7111: Performing Arts Companies</b></p>
+                                        <p>711110 Theater companies and dinner theaters</p>
+                                        <p><b>7112: Spectator Sports</b></p>
+                                        <p>711211 Sports teams and clubs</p>
+                                        <p>711212 Racetracks</p>
+                                        <p>711219 Other spectator sports</p>
+                                        <p><b>7121: Museums, Historical Sites, and Similar Institutions</b></p>
+                                        <p>712110 Museums</p>
+                                        <p>712120 Historical sites</p>
+                                        <p>712130 Zoos and botanical gardens</p>
+                                        <p>712190 Nature parks and other similar institutions</p>
+                                        <p><b>7131: Amusement Parks and Arcades</b></p>
+                                        <p>713110 Amusement and theme parks</p>
+                                        <p>713120 Amusement arcades</p>
+                                        <p><b>7132: Gambling Industries</b></p>
+                                        <p>713210 Casinos (except casino hotels)</p>
+                                        <p><b>7139: Other Amusement and Recreation Industries</b></p>
+                                        <p>713910 Golf courses and country clubs</p>
+                                        <p>713920 Skiing facilities</p>
+                                        <p>713930 Marinas</p>
+                                        <p>713950 Bowling centers</p>
+                                        <p>713990 All other amusement and recreation industries</p>
+                                        <p><b>7211: Traveler Accommodations</b></p>
+                                        <p>721110 Hotels (Except casino hotels) and motels</p>
+                                        <p>721120 Casino hotels</p>
+                                        <p>721191 Bed-and-breakfast inns</p>
+                                        <p>721199 All other traveler accommodation</p>
+                                        <p><b>7212: RV Parks and Recreational Camps</b></p>
+                                        <p>721211 RV (recreational vehicle) parks and campgrounds</p>
+                                        <p>721214 Recreational and vacation camps (except campgrounds)</p>
+                                    </div>
+
+                                </div>
                                 <div id="map" class="map"></div>
                                 <div id="legend"></div>
+
+                                <button id="myBtn">More Info</button>
 
                                 <h2 class="tourism-yearly">Destination Delaware Valley</h2>
                                 <p>As a part of DVRPC’s ongoing commitment to enhance travel and tourism, Destination:
