@@ -30,10 +30,10 @@
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.1.0",
     "babel-preset-minify": "^0.5.1",
-    "copy-webpack-plugin": "^5.1.1",
+    "copy-webpack-plugin": "^14.0.0",
     "html-webpack-plugin": "^4.0.1",
     "path": "^0.12.7",
-    "webpack": "^4.42.1",
+    "webpack": "^5.105.4",
     "webpack-cli": "^3.3.11"
   },
   "browserslist": "> 1% in us, ie 11",
